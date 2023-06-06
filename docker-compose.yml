@@ -1,0 +1,13 @@
+version: "0.1.0"
+
+services:
+  irondome:
+    container_name: irondome
+    build:
+      context: inc/irondome
+      dockerfile: Dockerfile.iron
+    restart: unless-stopped
+    ports:
+      - 4243:4243
+    volumes:
+      - ./inc/irondome/srv:/irondome
