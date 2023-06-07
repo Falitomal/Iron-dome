@@ -10,4 +10,5 @@ services:
     ports:
       - 4243:4243
     volumes:
-      - ./inc/irondome/srv:/irondome
+      - ./shared/irondome:/usr/src/iron
+      - ./shared/irondome/log:/var/log/irondome

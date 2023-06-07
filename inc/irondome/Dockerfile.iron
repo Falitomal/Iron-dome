@@ -1,15 +1,16 @@
 from debian:stable-slim
 
-WORKDIR /usr/src/iron
+WORKDIR /usr/src/
 
 COPY sshd_config /etc/ssh/sshd_config
+COPY ./irondome.py .
+COPY ./read-daemon.sh ./read-daemon.sh
 
-RUN useradd -m iron 
-RUN echo "iron:iron" | chpasswd
-RUN apt-get update && apt-get install openssh-server net-tools -y
+RUN echo "root:root" | chpasswd
+RUN apt-get update && apt-get install openssh-server net-tools sysstat procps -y
 RUN apt-get install vim python3 python3-pip python3-dev -y
 RUN pip install --upgrade pip
-RUN pip install resource psutil Observer watchdog
+RUN pip install resource psutil Observer watchdog python-daemon argparse 
 
-ENTRYPOINT service ssh restart; tail -f /dev/null
+ENTRYPOINT [ "sh", "/read-daemon.sh" ]
 EXPOSE 4243
