@@ -1,14 +1,13 @@
-version: "0.1.0"
-
+version: '3.8'
 services:
   irondome:
-    container_name: irondome
-    build:
-      context: inc/irondome
-      dockerfile: Dockerfile.iron
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: irondoma
     restart: unless-stopped
+    tty: true
     ports:
       - 4243:4243
     volumes:
-      - ./shared/irondome:/usr/src/iron
-      - ./shared/irondome/log:/var/log/irondome
+      - ./shared/log:/var/log/irondome

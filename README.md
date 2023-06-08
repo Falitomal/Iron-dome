@@ -52,7 +52,7 @@ python3
 
 
 ##  🛠️ Useful commands
-
+docker exec -it irondoma bash
 ```
 
 

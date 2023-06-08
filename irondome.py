@@ -5,9 +5,11 @@ import argparse
 import psutil
 import logging
 import resource
+import daemon
 from daemon import DaemonContext
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+
 
 # Configuración del registro de logs.
 log_file = "/var/log/irondome/irondome.log"
@@ -77,11 +79,14 @@ def run_daemon(route, extensions, interval):
 
 
 if __name__ == "__main__":
+    log_file_handler = logging.getLogger().handlers[0]
+    log_file_handler.flush()
+    log_file_fd = log_file_handler.stream.fileno()
     if os.geteuid() != 0:
         print("Este programa solo puede ser ejecutado por el usuario root.")
         sys.exit(1)
         
     args = get_args()
-    with DaemonContext(stdout=sys.stdout, stderr=sys.stderr):
+    with daemon.DaemonContext(stdout=sys.stdout, stderr=sys.stderr, files_preserve=[log_file_fd]):
         print(f'PID:{os.getpid()}')
         run_daemon(args.route, args.extensions, args.interval)
