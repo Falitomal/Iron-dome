@@ -3,8 +3,8 @@ FROM debian:stable-slim
 WORKDIR /usr/src/iron
 
 COPY sshd_config /etc/ssh/sshd_config
-COPY irondome.py .
-COPY read-daemon.sh .
+COPY irondome.py read-daemon.sh generate.py .
+
 
 RUN chmod +x read-daemon.sh
 RUN echo "root:root" | chpasswd
